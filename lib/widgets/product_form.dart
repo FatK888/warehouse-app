@@ -58,6 +58,7 @@ class _ProductFormState extends State<ProductForm> {
       color: _colorCtrl.text.trim().isEmpty ? null : _colorCtrl.text.trim(),
       model: _modelCtrl.text.trim().isEmpty ? null : _modelCtrl.text.trim(),
       spec: _specCtrl.text.trim().isEmpty ? null : _specCtrl.text.trim(),
+      scode: _scodeCtrl.text.trim().isEmpty ? null : _scodeCtrl.text.trim(),
     );
   }
 

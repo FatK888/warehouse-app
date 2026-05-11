@@ -24,12 +24,17 @@ class _InboundScreenState extends State<InboundScreen> {
   bool _showBatch = false;
 
   Future<void> _onScanned(String barcode) async {
-    final products = await Queries.searchProducts(barcode);
-    Product? product;
+    // 先用 SCODE 精準查，搵唔到先文字搜索
+    Product? product = await Queries.findProductByScode(barcode);
 
-    if (products.isNotEmpty) {
-      product = products.first;
-    } else {
+    if (product == null) {
+      final products = await Queries.searchProducts(barcode);
+      if (products.isNotEmpty) {
+        product = products.first;
+      }
+    }
+
+    if (product == null) {
       if (!mounted) return;
       product = await showModalBottomSheet<Product>(
         context: context,

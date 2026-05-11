@@ -43,13 +43,22 @@ class Queries {
         size: p.size, color: p.color, model: p.model, spec: p.spec);
   }
 
+  static Future<Product?> findProductByScode(String scode) async {
+    final db = _db;
+    if (db == null) return null;
+    final results = await db.query('products',
+      where: 'scode = ?', whereArgs: [scode], limit: 1);
+    if (results.isEmpty) return null;
+    return Product.fromMap(results.first);
+  }
+
   static Future<List<Product>> searchProducts(String query) async {
     final db = _db;
     if (db == null) return [];
     final like = '%$query%';
     final results = await db.query('products',
-      where: 'band LIKE ? OR type LIKE ? OR item LIKE ?',
-      whereArgs: [like, like, like],
+      where: 'band LIKE ? OR type LIKE ? OR item LIKE ? OR scode LIKE ?',
+      whereArgs: [like, like, like, like],
       orderBy: 'created_at DESC', limit: 50);
     return results.map(Product.fromMap).toList();
   }

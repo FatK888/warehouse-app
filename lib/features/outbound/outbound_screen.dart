@@ -38,8 +38,16 @@ class _OutboundScreenState extends State<OutboundScreen> {
   }
 
   Future<void> _onScanned(String barcode) async {
-    final products = await Queries.searchProducts(barcode);
-    if (products.isEmpty) {
+    // 先用 SCODE 精準查
+    Product? product = await Queries.findProductByScode(barcode);
+
+    // 搵唔到就文字搜索
+    if (product == null) {
+      final products = await Queries.searchProducts(barcode);
+      if (products.isNotEmpty) product = products.first;
+    }
+
+    if (product == null) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('商品不存在，請先入貨'), backgroundColor: Colors.red),
@@ -48,7 +56,7 @@ class _OutboundScreenState extends State<OutboundScreen> {
     }
 
     setState(() {
-      _currentProduct = products.first;
+      _currentProduct = product;
       _qty = 1;
       _unitPrice = 0.0;
       _currentScodes.clear();

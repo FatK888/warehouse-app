@@ -7,6 +7,7 @@ class Product {
   final String? color;
   final String? model;
   final String? spec;
+  final String? scode;
   final String? createdAt;
 
   const Product({
@@ -18,6 +19,7 @@ class Product {
     this.color,
     this.model,
     this.spec,
+    this.scode,
     this.createdAt,
   });
 
@@ -46,6 +48,7 @@ class Product {
     bool clearColor = false,
     bool clearModel = false,
     bool clearSpec = false,
+    bool clearScode = false,
   }) {
     return Product(
       id: id ?? this.id,
@@ -56,6 +59,7 @@ class Product {
       color: clearColor ? null : (color ?? this.color),
       model: clearModel ? null : (model ?? this.model),
       spec: clearSpec ? null : (spec ?? this.spec),
+      scode: clearScode ? null : (scode ?? this.scode),
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -70,6 +74,7 @@ class Product {
       'color': color,
       'model': model,
       'spec': spec,
+      'scode': scode,
       'created_at': createdAt ?? (() {
         final now = DateTime.now();
         return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
@@ -87,6 +92,7 @@ class Product {
       color: map['color'] as String?,
       model: map['model'] as String?,
       spec: map['spec'] as String?,
+      scode: map['scode'] as String?,
       createdAt: map['created_at'] as String?,
     );
   }

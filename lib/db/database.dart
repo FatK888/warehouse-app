@@ -44,6 +44,7 @@ class AppDatabase {
         color      TEXT,
         model      TEXT,
         spec       TEXT,
+        scode      TEXT,
         created_at TEXT NOT NULL DEFAULT (datetime('now','localtime')),
         UNIQUE(band, type, item, size, color, model, spec)
       )

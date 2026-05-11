@@ -34,17 +34,21 @@ class _CheckScreenState extends State<CheckScreen> {
       return;
     }
 
-    // 商品查詢
-    final products = await Queries.searchProducts(code);
-    if (products.isEmpty) {
+    // 商品查詢 — 先 SCODE 精準，再文字搜索
+    Product? product = await Queries.findProductByScode(code);
+
+    if (product == null) {
+      final products = await Queries.searchProducts(code);
+      if (products.isNotEmpty) product = products.first;
+    }
+
+    if (product == null) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('搵唔到相關商品或 IMEI'), backgroundColor: Colors.orange),
       );
       return;
     }
-
-    final product = products.first;
     final stock = await Queries.getStock(product.id!);
     final inPrice = await Queries.getLastInboundPrice(product.id!);
     final outPrice = await Queries.getLastOutboundPrice(product.id!);
