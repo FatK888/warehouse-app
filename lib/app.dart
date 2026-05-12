@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:warehouse/providers/auth_provider.dart';
 import 'package:warehouse/providers/batch_provider.dart';
+import 'package:warehouse/features/login/login_screen.dart';
 import 'package:warehouse/features/home/home_screen.dart';
 import 'package:warehouse/features/inbound/inbound_screen.dart';
 import 'package:warehouse/features/inbound/batch_summary_screen.dart';
@@ -15,6 +17,7 @@ class WarehouseApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => BatchProvider()),
       ],
       child: MaterialApp(
@@ -24,9 +27,11 @@ class WarehouseApp extends StatelessWidget {
           colorSchemeSeed: Colors.blue,
           useMaterial3: true,
         ),
-        initialRoute: '/',
+        home: Consumer<AuthProvider>(
+          builder: (_, auth, __) =>
+              auth.isLoggedIn ? const HomeScreen() : const LoginScreen(),
+        ),
         routes: {
-          '/': (_) => const HomeScreen(),
           '/inbound': (_) => const InboundScreen(),
           '/inbound/summary': (_) => const BatchSummaryScreen(),
           '/outbound': (_) => const OutboundScreen(),

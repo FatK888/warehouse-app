@@ -4,12 +4,6 @@ import 'package:warehouse/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  try {
-    await AppDatabase.initialize();
-  } catch (_) {
-    // DB not available (e.g. web) — app runs in preview mode
-  }
-
+  await AppDatabase.initialize();
   runApp(const WarehouseApp());
 }

@@ -1,11 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:warehouse/providers/auth_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final auth = context.watch<AuthProvider>();
+
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('倉庫管理'),
+        automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.person, size: 18),
+                const SizedBox(width: 4),
+                Text(auth.username, style: const TextStyle(fontSize: 14)),
+                const SizedBox(width: 8),
+                Text(auth.isAdmin ? '(管理員)' : '(操作員)',
+                    style: TextStyle(fontSize: 11, color: Colors.grey[400])),
+                const SizedBox(width: 8),
+                IconButton(
+                  icon: const Icon(Icons.logout, size: 18),
+                  tooltip: '登出',
+                  onPressed: () => auth.logout(),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -14,11 +44,6 @@ class HomeScreen extends StatelessWidget {
             children: [
               const Text('📦', style: TextStyle(fontSize: 48)),
               const SizedBox(height: 8),
-              Text('倉庫管理系統',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      )),
-              const SizedBox(height: 4),
               Text('九龍灣主倉',
                   style: TextStyle(color: Colors.grey[500], fontSize: 13)),
               const SizedBox(height: 32),
@@ -41,7 +66,7 @@ class HomeScreen extends StatelessWidget {
               _BigButton(
                 icon: '🔍',
                 label: 'CHK 查詢',
-                subtitle: '庫存查詢 / 商品搜尋 / 編輯',
+                subtitle: '庫存查詢 / 商品搜尋 / 編輯 / 單據',
                 color: Colors.blue,
                 onTap: () => Navigator.pushNamed(context, '/check'),
               ),

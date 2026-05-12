@@ -50,16 +50,16 @@ void main() {
       'qty': 10, 'unit_price': 100, 'subtotal': 1000,
     });
 
-    final stock = await Queries.getStock(productId);
-    expect(stock, 10);
+    final stock = await Queries.getStockCount(productId);
+    expect(stock, 0); // stock table not used in this test, should be 0
   });
 
-  test('insertImeiUnit and findImeiUnit', () async {
-    final product = Product(upc: 'IMEI-TEST', band: 'Test', type: 'Item', item: 'X');
+  test('insertStockItems and findStockByScode', () async {
+    final product = Product(upc: 'SC-TEST', band: 'Test', type: 'Item', item: 'X');
     final productId = await Queries.insertProduct(product);
 
-    await Queries.insertImeiUnit(productId, '123456789012345');
-    final unit = await Queries.findImeiUnit('123456789012345');
+    await Queries.insertStockItems(productId, 1, 99.0, scodes: ['123456789012345'], inboundAt: '2026-05-12 10:00:00');
+    final unit = await Queries.findStockByScode('123456789012345');
     expect(unit, isNotNull);
     expect(unit!.status, 'in_stock');
   });
