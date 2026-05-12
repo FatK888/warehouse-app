@@ -6,6 +6,7 @@ void main() {
     test('fromMap should parse all fields', () {
       final map = {
         'id': 1,
+        'upc': '4901234567890',
         'band': 'Apple',
         'type': 'iPhone',
         'item': '17Pro Max',
@@ -19,6 +20,7 @@ void main() {
       final product = Product.fromMap(map);
 
       expect(product.id, 1);
+      expect(product.upc, '4901234567890');
       expect(product.band, 'Apple');
       expect(product.type, 'iPhone');
       expect(product.item, '17Pro Max');
@@ -31,6 +33,7 @@ void main() {
     test('fromMap should handle null optional fields', () {
       final map = {
         'id': 2,
+        'upc': '8801234567890',
         'band': 'Samsung',
         'type': 'Phone',
         'item': 'Galaxy S25',
@@ -51,6 +54,7 @@ void main() {
 
     test('toMap should include all fields except id', () {
       final product = Product(
+        upc: '4901234567890',
         band: 'Apple',
         type: 'iPhone',
         item: '17Pro Max',
@@ -63,6 +67,7 @@ void main() {
       final map = product.toMap();
 
       expect(map['id'], isNull);
+      expect(map['upc'], '4901234567890');
       expect(map['band'], 'Apple');
       expect(map['type'], 'iPhone');
       expect(map['item'], '17Pro Max');
@@ -75,6 +80,7 @@ void main() {
 
     test('displayName should return BAND TYPE ITEM', () {
       final product = Product(
+        upc: '4901234567890',
         band: 'Apple',
         type: 'iPhone',
         item: '17Pro Max',
@@ -84,25 +90,44 @@ void main() {
     });
 
     test('copyWith should update specific fields', () {
-      final product = Product(band: 'Apple', type: 'iPhone', item: '17Pro Max',
-        size: '512', color: 'ML8G3');
+      final product = Product(
+        upc: '4901234567890',
+        band: 'Apple',
+        type: 'iPhone',
+        item: '17Pro Max',
+        size: '512',
+        color: 'ML8G3',
+      );
       final updated = product.copyWith(size: '256', color: 'RED');
       expect(updated.size, '256');
       expect(updated.color, 'RED');
-      expect(updated.band, 'Apple'); // unchanged
+      expect(updated.band, 'Apple');
     });
 
     test('copyWith clearXxx flags should set field to null', () {
-      final product = Product(band: 'Apple', type: 'iPhone', item: '17Pro Max',
-        size: '512', color: 'ML8G3');
+      final product = Product(
+        upc: '4901234567890',
+        band: 'Apple',
+        type: 'iPhone',
+        item: '17Pro Max',
+        size: '512',
+        color: 'ML8G3',
+      );
       final cleared = product.copyWith(clearSize: true, clearColor: true);
       expect(cleared.size, isNull);
       expect(cleared.color, isNull);
     });
 
     test('fullDescription should join all non-null fields', () {
-      final product = Product(band: 'Apple', type: 'iPhone', item: '17Pro Max',
-        size: '512', color: 'ML8G3', model: 'ZA/NA');
+      final product = Product(
+        upc: '4901234567890',
+        band: 'Apple',
+        type: 'iPhone',
+        item: '17Pro Max',
+        size: '512',
+        color: 'ML8G3',
+        model: 'ZA/NA',
+      );
       expect(product.fullDescription, 'Apple iPhone 17Pro Max 512 ML8G3 ZA/NA');
     });
   });

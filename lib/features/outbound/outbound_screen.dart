@@ -38,10 +38,10 @@ class _OutboundScreenState extends State<OutboundScreen> {
   }
 
   Future<void> _onScanned(String barcode) async {
-    // 先用 SCODE 精準查
-    Product? product = await Queries.findProductByScode(barcode);
+    // 先 UPC → SCODE → 文字搜索
+    Product? product = await Queries.findProductByUpc(barcode);
+    if (product == null) product = await Queries.findProductByScode(barcode);
 
-    // 搵唔到就文字搜索
     if (product == null) {
       final products = await Queries.searchProducts(barcode);
       if (products.isNotEmpty) product = products.first;

@@ -28,6 +28,8 @@ class ProductCard extends StatelessWidget {
             Text(product.displayName,
                 style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 4),
+            _buildField('UPC', product.upc),
+            const SizedBox(height: 2),
             Row(
               children: [
                 _buildField('BAND', product.band),

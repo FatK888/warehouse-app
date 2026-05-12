@@ -16,7 +16,7 @@ void main() {
   });
 
   test('addItem should add new batch item', () {
-    final product = Product(band: 'Apple', type: 'iPhone', item: '17Pro Max');
+    final product = Product(upc: 'TEST-UPC', band: 'Apple', type: 'iPhone', item: '17Pro Max');
     provider.addItem(product, qty: 2, unitPrice: 100.0);
 
     expect(provider.items.length, 1);
@@ -26,7 +26,7 @@ void main() {
   });
 
   test('addScodeToItem should increment qty and add scode', () {
-    final product = Product(band: 'Apple', type: 'iPhone', item: '17Pro Max');
+    final product = Product(upc: 'TEST-UPC', band: 'Apple', type: 'iPhone', item: '17Pro Max');
     provider.addItem(product, qty: 1, unitPrice: 100.0);
     provider.addScodeToItem(0, '123456789012345');
 
@@ -35,7 +35,7 @@ void main() {
   });
 
   test('removeItem should remove item from batch', () {
-    final product = Product(band: 'Apple', type: 'iPhone', item: '17Pro Max');
+    final product = Product(upc: 'TEST-UPC', band: 'Apple', type: 'iPhone', item: '17Pro Max');
     provider.addItem(product, qty: 2, unitPrice: 100.0);
     provider.removeItem(0);
 
@@ -45,7 +45,7 @@ void main() {
   });
 
   test('updateQty should recalculate totals', () {
-    final product = Product(band: 'Apple', type: 'iPhone', item: '17Pro Max');
+    final product = Product(upc: 'TEST-UPC', band: 'Apple', type: 'iPhone', item: '17Pro Max');
     provider.addItem(product, qty: 2, unitPrice: 100.0);
     provider.updateQty(0, 5);
 
@@ -54,7 +54,7 @@ void main() {
   });
 
   test('clear should reset everything', () {
-    final product = Product(band: 'Apple', type: 'iPhone', item: '17Pro Max');
+    final product = Product(upc: 'TEST-UPC', band: 'Apple', type: 'iPhone', item: '17Pro Max');
     provider.addItem(product, qty: 2, unitPrice: 100.0);
     provider.clear();
 

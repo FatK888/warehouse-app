@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:warehouse/models/product.dart';
 
-/// 建立商品表單，支援預填 SCODE。
 class ProductForm extends StatefulWidget {
   final String? prefillBarcode;
 
@@ -13,6 +12,7 @@ class ProductForm extends StatefulWidget {
 
 class _ProductFormState extends State<ProductForm> {
   final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _upcCtrl;
   late final TextEditingController _bandCtrl;
   late final TextEditingController _typeCtrl;
   late final TextEditingController _itemCtrl;
@@ -25,6 +25,7 @@ class _ProductFormState extends State<ProductForm> {
   @override
   void initState() {
     super.initState();
+    _upcCtrl = TextEditingController(text: widget.prefillBarcode ?? '');
     _bandCtrl = TextEditingController();
     _typeCtrl = TextEditingController();
     _itemCtrl = TextEditingController();
@@ -32,11 +33,12 @@ class _ProductFormState extends State<ProductForm> {
     _colorCtrl = TextEditingController();
     _modelCtrl = TextEditingController();
     _specCtrl = TextEditingController();
-    _scodeCtrl = TextEditingController(text: widget.prefillBarcode ?? '');
+    _scodeCtrl = TextEditingController();
   }
 
   @override
   void dispose() {
+    _upcCtrl.dispose();
     _bandCtrl.dispose();
     _typeCtrl.dispose();
     _itemCtrl.dispose();
@@ -51,6 +53,7 @@ class _ProductFormState extends State<ProductForm> {
   Product? _submit() {
     if (!_formKey.currentState!.validate()) return null;
     return Product(
+      upc: _upcCtrl.text.trim(),
       band: _bandCtrl.text.trim(),
       type: _typeCtrl.text.trim(),
       item: _itemCtrl.text.trim(),
@@ -70,6 +73,8 @@ class _ProductFormState extends State<ProductForm> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            _buildRequiredField('UPC 條碼', _upcCtrl, '4901234567890'),
+            const SizedBox(height: 10),
             _buildRequiredField('BAND 品牌', _bandCtrl, 'Apple'),
             const SizedBox(height: 10),
             _buildRequiredField('TYPE 類型', _typeCtrl, 'iPhone'),

@@ -18,18 +18,18 @@ void main() {
   });
 
   test('insertProduct and findProduct', () async {
-    final product = Product(band: 'Apple', type: 'iPhone', item: '17Pro Max');
+    final product = Product(upc: '4901234567890', band: 'Apple', type: 'iPhone', item: '17Pro Max');
     final id = await Queries.insertProduct(product);
     expect(id, isPositive);
 
-    final found = await Queries.findProduct('Apple', 'iPhone', '17Pro Max');
+    final found = await Queries.findProductByUpc('4901234567890');
     expect(found, isNotNull);
     expect(found!.band, 'Apple');
   });
 
   test('searchProducts should match band/type/item', () async {
-    await Queries.insertProduct(Product(band: 'Apple', type: 'iPhone', item: '17Pro Max'));
-    await Queries.insertProduct(Product(band: 'Samsung', type: 'Phone', item: 'Galaxy S25'));
+    await Queries.insertProduct(Product(upc: '4901234567890', band: 'Apple', type: 'iPhone', item: '17Pro Max'));
+    await Queries.insertProduct(Product(upc: '8801234567890', band: 'Samsung', type: 'Phone', item: 'Galaxy S25'));
 
     final results = await Queries.searchProducts('Apple');
     expect(results.length, 1);
@@ -37,7 +37,7 @@ void main() {
   });
 
   test('getStock should return SUM(in) - SUM(out)', () async {
-    final product = Product(band: 'Test', type: 'Item', item: 'X');
+    final product = Product(upc: 'STOCK-TEST', band: 'Test', type: 'Item', item: 'X');
     final productId = await Queries.insertProduct(product);
 
     final db = AppDatabase.db;
@@ -55,7 +55,7 @@ void main() {
   });
 
   test('insertImeiUnit and findImeiUnit', () async {
-    final product = Product(band: 'Test', type: 'Item', item: 'X');
+    final product = Product(upc: 'IMEI-TEST', band: 'Test', type: 'Item', item: 'X');
     final productId = await Queries.insertProduct(product);
 
     await Queries.insertImeiUnit(productId, '123456789012345');

@@ -1,5 +1,6 @@
 class Product {
   final int? id;
+  final String upc;
   final String band;
   final String type;
   final String item;
@@ -12,6 +13,7 @@ class Product {
 
   const Product({
     this.id,
+    required this.upc,
     required this.band,
     required this.type,
     required this.item,
@@ -36,6 +38,7 @@ class Product {
 
   Product copyWith({
     int? id,
+    String? upc,
     String? band,
     String? type,
     String? item,
@@ -43,6 +46,7 @@ class Product {
     String? color,
     String? model,
     String? spec,
+    String? scode,
     String? createdAt,
     bool clearSize = false,
     bool clearColor = false,
@@ -52,6 +56,7 @@ class Product {
   }) {
     return Product(
       id: id ?? this.id,
+      upc: upc ?? this.upc,
       band: band ?? this.band,
       type: type ?? this.type,
       item: item ?? this.item,
@@ -67,6 +72,7 @@ class Product {
   Map<String, dynamic> toMap() {
     return {
       if (id != null) 'id': id,
+      'upc': upc,
       'band': band,
       'type': type,
       'item': item,
@@ -77,7 +83,7 @@ class Product {
       'scode': scode,
       'created_at': createdAt ?? (() {
         final now = DateTime.now();
-        return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
+        return '${now.year}-${now.month.toString().padLeft(2,'0')}-${now.day.toString().padLeft(2,'0')} ${now.hour.toString().padLeft(2,'0')}:${now.minute.toString().padLeft(2,'0')}:${now.second.toString().padLeft(2,'0')}';
       })(),
     };
   }
@@ -85,6 +91,7 @@ class Product {
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
       id: map['id'] as int?,
+      upc: map['upc'] as String,
       band: map['band'] as String,
       type: map['type'] as String,
       item: map['item'] as String,

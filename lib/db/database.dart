@@ -37,6 +37,7 @@ class AppDatabase {
     await db.execute('''
       CREATE TABLE products (
         id         INTEGER PRIMARY KEY AUTOINCREMENT,
+        upc        TEXT NOT NULL,
         band       TEXT NOT NULL,
         type       TEXT NOT NULL,
         item       TEXT NOT NULL,
@@ -46,7 +47,7 @@ class AppDatabase {
         spec       TEXT,
         scode      TEXT,
         created_at TEXT NOT NULL DEFAULT (datetime('now','localtime')),
-        UNIQUE(band, type, item, size, color, model, spec)
+        UNIQUE(upc, band, type, item, size, color, model, spec)
       )
     ''');
 

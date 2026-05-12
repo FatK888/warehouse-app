@@ -24,8 +24,9 @@ class _InboundScreenState extends State<InboundScreen> {
   bool _showBatch = false;
 
   Future<void> _onScanned(String barcode) async {
-    // 先用 SCODE 精準查，搵唔到先文字搜索
-    Product? product = await Queries.findProductByScode(barcode);
+    // 先 UPC 精準查 → SCODE → 文字搜索
+    Product? product = await Queries.findProductByUpc(barcode);
+    if (product == null) product = await Queries.findProductByScode(barcode);
 
     if (product == null) {
       final products = await Queries.searchProducts(barcode);

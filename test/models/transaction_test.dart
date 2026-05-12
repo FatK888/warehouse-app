@@ -159,13 +159,13 @@ void main() {
 
   group('BatchItem', () {
     test('subtotal should be qty * unitPrice', () {
-      final product = Product(band: 'Apple', type: 'iPhone', item: '17Pro Max');
+      final product = Product(upc: 'TEST-UPC', band: 'Apple', type: 'iPhone', item: '17Pro Max');
       final item = BatchItem(product: product, qty: 3, unitPrice: 100.0);
       expect(item.subtotal, 300.0);
     });
 
     test('addScode should increment qty', () {
-      final product = Product(band: 'Apple', type: 'iPhone', item: '17Pro Max');
+      final product = Product(upc: 'TEST-UPC', band: 'Apple', type: 'iPhone', item: '17Pro Max');
       final item = BatchItem(product: product, qty: 1, unitPrice: 100.0);
       item.addScode('123456789012345');
       expect(item.qty, 2);

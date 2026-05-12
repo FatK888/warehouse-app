@@ -34,8 +34,9 @@ class _CheckScreenState extends State<CheckScreen> {
       return;
     }
 
-    // 商品查詢 — 先 SCODE 精準，再文字搜索
-    Product? product = await Queries.findProductByScode(code);
+    // 商品查詢 — 先 UPC → SCODE → 文字搜索
+    Product? product = await Queries.findProductByUpc(code);
+    if (product == null) product = await Queries.findProductByScode(code);
 
     if (product == null) {
       final products = await Queries.searchProducts(code);
